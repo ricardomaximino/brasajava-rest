@@ -1,5 +1,6 @@
 package com.brasajava;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,10 +8,13 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.json.JsonJsonParser;
 import org.springframework.context.annotation.Bean;
 
+import com.brasajava.model.CapoeiraMember;
 import com.brasajava.model.CapoeiraMusic;
 import com.brasajava.model.CapoeiraMusicPart;
+import com.brasajava.service.CapoeiraMemberService;
 import com.brasajava.service.CapoeiraMusicService;
 
 @SpringBootApplication
@@ -22,7 +26,7 @@ public class BrasajavaApplication {
 	
 
 	@Bean
-	public CommandLineRunner runner(CapoeiraMusicService service) {
+	public CommandLineRunner runner(CapoeiraMusicService musicService, CapoeiraMemberService memberService) {
 		return args -> {
 
 			List<CapoeiraMusicPart> musicPartsList = new ArrayList<>();
@@ -53,7 +57,52 @@ public class BrasajavaApplication {
 			
 			music.setMusicPartSequence(Arrays.asList(1,2,1,3,1,4));
 
-			service.save(music);
+			musicService.save(music);
+			
+			
+			//CapoeiraMember
+			
+			CapoeiraMember farofa = new CapoeiraMember();
+			CapoeiraMember linguiça = new CapoeiraMember();
+			CapoeiraMember maizena = new CapoeiraMember();
+			farofa.setCapoeiraName("Farofa");
+			farofa.setDescription("Magrinho mas valente");
+			farofa.setGraduation("Mestre");
+			farofa.setGroup("Nação Cultural");
+			farofa.setGroups(Arrays.asList("Grupo Africa","Abada Capoeira","C.I.C","Nação Cultural"));
+			farofa.setImage("Armada com martelo");
+			farofa.setStartDate(LocalDate.of(1995, 01, 10));
+			farofa.setStudents(Arrays.asList(maizena,linguiça));
+			farofa.setTeachers(Arrays.asList(linguiça));
+			
+			linguiça.setCapoeiraName("linguiça");
+			linguiça.setDescription("Magrinho mas valente");
+			linguiça.setGraduation("Mestre");
+			linguiça.setGroup("Nação Cultural");
+			linguiça.setGroups(Arrays.asList("Grupo Africa","Abada Capoeira","C.I.C","Nação Cultural"));
+			linguiça.setImage("Armada com martelo");
+			linguiça.setStartDate(LocalDate.of(1995, 01, 10));
+			linguiça.setStudents(Arrays.asList(maizena,farofa));
+			linguiça.setTeachers(Arrays.asList(farofa));
+			
+			maizena.setCapoeiraName("maizena");
+			maizena.setDescription("Comigo o caldo engrossa");
+			maizena.setGraduation("Mestre");
+			maizena.setGroup("Nação Cultural");
+			maizena.setGroups(Arrays.asList("Grupo Africa","Abada Capoeira","C.I.C","Nação Cultural"));
+			maizena.setImage("Armada com martelo");
+			maizena.setStartDate(LocalDate.of(2002, 01, 10));
+			maizena.setStudents(Arrays.asList(maizena,linguiça));
+			maizena.setTeachers(Arrays.asList(linguiça));
+			
+			memberService.save(farofa);
+			List<CapoeiraMember> list = memberService.getAll();
+			for(CapoeiraMember m : list) {
+				System.out.println(m);
+			}
+			
+			
+			
 		};
 	}
 }
