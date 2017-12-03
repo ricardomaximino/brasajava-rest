@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.json.JsonJsonParser;
 import org.springframework.context.annotation.Bean;
 
 import com.brasajava.model.CapoeiraMember;
@@ -96,13 +95,6 @@ public class BrasajavaApplication {
 			maizena.setTeachers(Arrays.asList(linguiça));
 			
 			memberService.save(farofa);
-			List<CapoeiraMember> list = memberService.getAll();
-			for(CapoeiraMember m : list) {
-				System.out.println(m);
-			}
-			
-			
-			
 		};
 	}
 }

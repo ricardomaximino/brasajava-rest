@@ -17,14 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brasajava.model.CapoeiraMusic;
 import com.brasajava.service.CapoeiraMusicService;
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin("*")
 @RequestMapping("/public/capoeira/music")
 @RestController
-public class CapoeiraMusicController {
+public class CapoeiraMusicController implements CrudResourceController<CapoeiraMusic>{
 	
 	@Autowired
 	private CapoeiraMusicService service;
 	
+	@Override
 	@PostMapping
 	public ResponseEntity<CapoeiraMusic> save(@RequestBody CapoeiraMusic music) {
 		return new ResponseEntity<CapoeiraMusic>(service.save(music),HttpStatus.OK);
@@ -35,8 +36,9 @@ public class CapoeiraMusicController {
 		return new ResponseEntity<CapoeiraMusic>(service.save(music),HttpStatus.OK);
 	}
 	
+	@Override
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") long id){
+	public ResponseEntity<Boolean> delete(@PathVariable("id") long id){
 		System.out.println("DELETE");
 		if(service.delete(id)) {
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -44,13 +46,15 @@ public class CapoeiraMusicController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	@Override
 	@GetMapping
 	public ResponseEntity<List<CapoeiraMusic>> getAll(){
 		return new ResponseEntity<List<CapoeiraMusic>>(service.getAll(),HttpStatus.OK);
 	}
 	
+	@Override
 	@GetMapping(value="/{id}")
-	public ResponseEntity<CapoeiraMusic> getMusicById(@PathVariable("id") Long id){
+	public ResponseEntity<CapoeiraMusic> getById(@PathVariable("id") long id){
 		return new ResponseEntity<CapoeiraMusic>(service.getById(id),HttpStatus.OK);
 	}
 
