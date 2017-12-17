@@ -1,12 +1,11 @@
 package com.brasajava.config;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@Configuration
+
 @EnableWebSecurity
 public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter {
 
@@ -15,18 +14,19 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/public/**").permitAll()
 				.antMatchers("/security/**").hasAnyRole("ADMIN","USER")
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.and()
 				.httpBasic();
 		
 		http.csrf().disable();
-	}
+	}  
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
-			.withUser("ricardo").password("Ricardo2").roles("ADMIN USER")
+				.withUser("ricardo").password("Ricardo2").roles("ADMIN", "USER")
 			.and()
-			.withUser("user").password("user").roles("USER");
+				.withUser("user").password("user").roles("USER");
 	}
 	
 	

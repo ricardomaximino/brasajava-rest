@@ -1,5 +1,6 @@
 package com.brasajava.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brasajava.model.CapoeiraMember;
-import com.brasajava.service.Service;
+import com.brasajava.service.CapoeiraMemberService;
 
 @RestController
 @CrossOrigin("*")
@@ -24,7 +25,7 @@ import com.brasajava.service.Service;
 public class CapoeiraMemberController implements CrudResourceController<CapoeiraMember> {
 	
 	@Autowired
-	private Service<CapoeiraMember> service;
+	private CapoeiraMemberService service;
 
 	@Override
 	@PostMapping
@@ -41,19 +42,22 @@ public class CapoeiraMemberController implements CrudResourceController<Capoeira
 	@Override
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable long id) {
-		return new ResponseEntity<Boolean>(service.delete(id), HttpStatus.OK);
+		if(service.delete(id)) {
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
-	@GetMapping("/")
+	@GetMapping()
 	public ResponseEntity<List<CapoeiraMember>> getAll() {
 		return new ResponseEntity<List<CapoeiraMember>>(service.getAll(), HttpStatus.OK);
 	}
 
 	@Override
 	@GetMapping(value="/{id}")
-	public ResponseEntity<CapoeiraMember> getById(@PathVariable long id) {
+	public ResponseEntity<CapoeiraMember> getById(@PathVariable("id") long id) {
 		return new ResponseEntity<CapoeiraMember>(service.getById(id), HttpStatus.OK);
 	}
-	
+
 }

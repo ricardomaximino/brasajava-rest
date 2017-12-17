@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brasajava.model.CapoeiraMusic;
 import com.brasajava.service.CapoeiraMusicService;
+
 @CrossOrigin("*")
 @RequestMapping("/public/capoeira/music")
 @RestController
@@ -39,7 +40,6 @@ public class CapoeiraMusicController implements CrudResourceController<CapoeiraM
 	@Override
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable("id") long id){
-		System.out.println("DELETE");
 		if(service.delete(id)) {
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
