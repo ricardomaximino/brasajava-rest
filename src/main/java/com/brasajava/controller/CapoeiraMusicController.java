@@ -29,17 +29,20 @@ public class CapoeiraMusicController implements CrudResourceController<CapoeiraM
 	@Override
 	@PostMapping
 	public ResponseEntity<CapoeiraMusic> save(@RequestBody CapoeiraMusic music) {
+		System.out.println("save method");
 		return new ResponseEntity<CapoeiraMusic>(service.save(music),HttpStatus.OK);
 	}
 	
 	@PutMapping
 	public ResponseEntity<CapoeiraMusic> update(@RequestBody CapoeiraMusic music){
+		System.out.println("update method");
 		return new ResponseEntity<CapoeiraMusic>(service.save(music),HttpStatus.OK);
 	}
 	
 	@Override
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable("id") long id){
+		System.out.println("delete method");
 		if(service.delete(id)) {
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
